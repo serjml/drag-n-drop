@@ -4,7 +4,7 @@ class DragAndDrop {
   };
 
   stateClasses = {
-    isDrgging: 'is-dragging',
+    isDragging: 'is-dragging',
   };
 
   initialState = {
@@ -15,8 +15,9 @@ class DragAndDrop {
   };
 
   constructor() {
+    // console.log('first');
     this.state = { ...this.initialState };
-    this.bindEvents;
+    this.bindEvents();
   }
 
   resetState() {
@@ -31,7 +32,7 @@ class DragAndDrop {
       return;
     }
 
-    target.classList.add(this.stateClasses.isDrgging);
+    target.classList.add(this.stateClasses.isDragging);
 
     const { left, top } = target.getBoundingClientRect();
 
@@ -53,6 +54,15 @@ class DragAndDrop {
 
     this.state.currentDraggingElement.style.left = `${x}px`;
     this.state.currentDraggingElement.style.top = `${y}px`;
+  }
+
+  onPointerUp() {
+    if (!this.state.isDragging) {
+      return;
+    }
+
+    this.state.currentDraggingElement.classList.remove(this.stateClasses.isDragging);
+    this.resetState();
   }
 
   bindEvents() {
