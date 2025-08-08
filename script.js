@@ -10,7 +10,7 @@ class DragAndDrop {
   initialState = {
     offsetX: null,
     offsetY: null,
-    isDrgging: false,
+    isDragging: false,
     currentDraggingElement: null,
   };
 
@@ -41,6 +41,18 @@ class DragAndDrop {
       isDragging: true,
       currentDraggingElement: target,
     };
+  }
+
+  onPointerMove(event) {
+    if (!this.state.isDragging) {
+      return;
+    }
+
+    const x = event.pageX - this.state.offsetX;
+    const y = event.pageY - this.state.offsetY;
+
+    this.state.currentDraggingElement.style.left = `${x}px`;
+    this.state.currentDraggingElement.style.top = `${y}px`;
   }
 
   bindEvents() {
