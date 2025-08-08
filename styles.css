@@ -1,0 +1,46 @@
+body {
+  font-family: 'Rubik', sans-serif;
+  background-color: #bdc1c7;
+  font-size: 24px;
+}
+
+.red,
+.green,
+.blue {
+  display: inline-block;
+  width: 10vw;
+  aspect-ratio: 1;
+}
+
+.red {
+  top: 3vw;
+  left: 25vw;
+  background-color: red;
+}
+
+.green {
+  top: 0;
+  left: 0;
+  background-color: green;
+}
+
+.blue {
+  top: 17vw;
+  left: 6vw;
+  background-color: blue;
+}
+
+.draggable {
+  position: absolute;
+  z-index: 1;
+  cursor: grab;
+  transition-property: scale, opacity;
+  transition-duration: 0.2s;
+  touch-action: none;
+}
+
+.draggable.is-dragging {
+  cursor: grabbing;
+  opacity: 0.5;
+  scale: 1.05;
+}
