@@ -1,75 +1,73 @@
-class DragAndDrop {
-  selectors = {
+function dragAndDrop() {
+  const selectors = {
     root: '[data-js-dnd]',
   };
 
-  stateClasses = {
+  const stateClasses = {
     isDragging: 'is-dragging',
   };
 
-  initialState = {
+  const initialState = {
     offsetX: null,
     offsetY: null,
     isDragging: false,
     currentDraggingElement: null,
   };
 
-  constructor() {
-    // console.log('first');
-    this.state = { ...this.initialState };
-    this.bindEvents();
-  }
+  let state = { ...initialState };
 
-  resetState() {
-    this.state = { ...this.initialState };
-  }
+  const resetState = () => {
+    state = { ...initialState };
+  };
 
-  onPointerDown(event) {
+  const onPointerDown = (event) => {
     const { target, x, y } = event;
-    const isDrggable = target.matches(this.selectors.root);
+    const isDrggable = target.matches(selectors.root);
 
     if (!isDrggable) {
       return;
     }
 
-    target.classList.add(this.stateClasses.isDragging);
+    target.classList.add(stateClasses.isDragging);
 
     const { left, top } = target.getBoundingClientRect();
 
-    this.state = {
+    state = {
       offsetX: x - left,
       offsetY: y - top,
       isDragging: true,
       currentDraggingElement: target,
     };
-  }
+  };
 
-  onPointerMove(event) {
-    if (!this.state.isDragging) {
+  const onPointerMove = (event) => {
+    if (!state.isDragging) {
       return;
     }
 
-    const x = event.pageX - this.state.offsetX;
-    const y = event.pageY - this.state.offsetY;
+    const x = event.pageX - state.offsetX;
+    const y = event.pageY - state.offsetY;
 
-    this.state.currentDraggingElement.style.left = `${x}px`;
-    this.state.currentDraggingElement.style.top = `${y}px`;
-  }
+    state.currentDraggingElement.style.left = `${x}px`;
+    state.currentDraggingElement.style.top = `${y}px`;
+  };
 
-  onPointerUp() {
-    if (!this.state.isDragging) {
+  const onPointerUp = () => {
+    if (!state.isDragging) {
       return;
     }
 
-    this.state.currentDraggingElement.classList.remove(this.stateClasses.isDragging);
-    this.resetState();
-  }
+    state.currentDraggingElement.classList.remove(stateClasses.isDragging);
+    resetState();
+  };
 
-  bindEvents() {
-    document.addEventListener('pointerdown', (event) => this.onPointerDown(event));
-    document.addEventListener('pointermove', (event) => this.onPointerMove(event));
-    document.addEventListener('pointerup', () => this.onPointerUp());
-  }
+  const bindEvents = () => {
+    document.addEventListener('pointerdown', onPointerDown);
+    document.addEventListener('pointermove', onPointerMove);
+    document.addEventListener('pointerup', onPointerUp);
+  };
+
+  bindEvents();
 }
 
-new DragAndDrop();
+dragAndDrop();
